@@ -46,6 +46,10 @@
 #include <KAboutData>
 #include <KDBusService>
 
+#ifndef QML_PATH
+#define QML_PATH "qrc:"
+#endif
+
 int main(int argc, char **argv)
 {
     QCommandLineParser parser;
@@ -137,7 +141,7 @@ int main(int argc, char **argv)
     qmlRegisterSingletonInstance<DialerUtils>("org.kde.phone.dialer", 1, 0, "DialerUtils", dialerUtils);
     qmlRegisterAnonymousType<QAbstractItemModel>("org.kde.phone.dialer", 1);
 
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    engine.load(QUrl(QStringLiteral(QML_PATH "/main.qml")));
 
     Tp::SharedPtr<CallHandler> callHandler(new CallHandler(dialerUtils));
     registrar->registerClient(Tp::AbstractClientPtr::dynamicCast(callHandler), QStringLiteral("Plasma.Dialer"));

@@ -5,7 +5,6 @@ set(plasmaphonedialer_SRCS
     callhistorymodel.cpp
     call-manager.cpp
     qpulseaudioengine.cpp
-    resources.qrc
 )
 add_executable(plasmaphonedialer ${plasmaphonedialer_SRCS})
 target_compile_definitions(plasmaphonedialer PRIVATE -DPROJECT_VERSION="${PROJECT_VERSION}")
@@ -24,6 +23,17 @@ target_link_libraries(plasmaphonedialer
  ${PULSEAUDIO_LIBRARY}
  ${PULSEAUDIO_MAINLOOP_LIBRARY}
 )
+
+if(EMBED_QML_FILES)
+    target_sources(plasmaphonedialer PRIVATE
+        resources.qrc
+    )
+else()
+    target_compile_definitions(plasmaphonedialer PRIVATE
+        QML_PATH="${KDE_INSTALL_FULL_DATAROOTDIR}/${PROJECT_NAME}"
+    )
+    install(DIRECTORY "qml/" DESTINATION ${KDE_INSTALL_DATAROOTDIR}/${PROJECT_NAME})
+endif()
 
 install(TARGETS plasmaphonedialer ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(FILES plasma_dialer.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFY5RCDIR})
