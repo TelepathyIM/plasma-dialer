@@ -161,7 +161,7 @@ Kirigami.Page {
             AnswerSwipe {
                 anchors.fill: parent
                 //STATUS_INCOMING
-                visible: status !== DialerUtils.Active
+                visible: status === DialerUtils.Incoming
                 onAccepted: {
                     DialerUtils.acceptCall();
                 }
